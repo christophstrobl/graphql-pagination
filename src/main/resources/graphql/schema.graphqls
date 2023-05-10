@@ -1,0 +1,43 @@
+type Query {
+  bookById(id: ID): Book
+  allBooks: [Book]
+  allBooksPaged(page: Int, size: Int): [Book]
+  booksByTitle(title: String): [Book]
+  booksByTitlePaged(title: String, page: Int, size: Int): [Book]
+  allBooksWindowed(cursor: String): BookConnection
+  booksByTitleWindowed(title: String, cursor: String) : BookConnection
+  booksOrderedByDate(cursor: String): BookConnection
+}
+
+type Book {
+  id: ID
+  title: String
+  isbn10: String
+  publicationDate: Date
+  author: Author
+}
+
+type Author {
+  id: ID
+  firstName: String
+  lastName: String
+}
+
+type BookConnection {
+  pageInfo: PageInfo!
+  edges: [BookEdge]
+}
+
+type BookEdge {
+  cursor: String!
+  node: Book
+}
+
+type PageInfo {
+    hasPreviousPage: Boolean!
+    hasNextPage: Boolean!
+    startCursor: String
+    endCursor: String
+}
+
+scalar Date @specifiedBy(url:"https://tools.ietf.org/html/rfc3339")
